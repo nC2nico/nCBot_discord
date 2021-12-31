@@ -54,8 +54,10 @@ client.on('message', message =>{
  }
  if (message.content.match(/^!おみくじ/) ||
      (message.isMemberMentioned(client.user) && message.content.match(/おみくじ/))){
-   let arr = ParseFloat(message.content);
-   lottery(message.channel.id, arr);
+   let arr  = message.content
+   let arr2 = arr.replace(/[^0-9^\.]/gi,"");
+   let arr3 = ParseFloat(arr2);
+   lottery(message.channel.id, arr3);
  }else if (message.isMemberMentioned(client.user)) {
    sendReply(message, "呼びましたか？");
  }
