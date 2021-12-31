@@ -33,7 +33,7 @@ http.createServer(function(req, res){
 
 client.on('ready', message =>{
  console.log('Bot準備完了～');
- client.user.setPresence({ activity: { name: 'げーむ' } });
+ client.user.setActivity('ニンゲンの愚かさ', { type: 'WATCHING' });
 });
 
 client.on('message', message =>{
@@ -52,9 +52,9 @@ client.on('message', message =>{
  if (message.author.id == client.user.id || message.author.bot){
    return;
  }
- if (message.content.match(/^！おみくじ/) ||
+ if (message.content.match(/^!おみくじ/) ||
      (message.isMemberMentioned(client.user) && message.content.match(/おみくじ/))){
-   let arr = ["大吉", "吉", "凶", "ぽてと", "にゃ～ん", "しゅうまい君"];
+   let arr = ParseFloat(message.content);
    lottery(message.channel.id, arr);
  }else if (message.isMemberMentioned(client.user)) {
    sendReply(message, "呼びましたか？");
@@ -62,15 +62,9 @@ client.on('message', message =>{
 });
 
 function lottery(channelId, arr){
-  let random = Math.floor( Math.random() * arr.length);
-  sendMsg(channelId, arr[random]);
+  let random = Math.floor( Math.random() * arr);
+  sendMsg(channelId, random);
 }
-
-function lottery(channelId, arr){
-  let random = Math.floor( Math.random() * arr.length);
-  sendMsg(channelId, arr[random]);
-}
-});
 
 if(process.env.DISCORD_BOT_TOKEN == undefined){
 console.log('DISCORD_BOT_TOKENが設定されていません。');
