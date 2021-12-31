@@ -41,3 +41,30 @@ client.on('message', message =>{
   }
   if(message.isMemberMentioned(client.user)){
     sendReply(message, "呼びましたか？");
+    return;
+  }
+  if (message.content.match(/にゃ～ん|にゃーん/)){
+    let text = "にゃ～ん";
+    sendMsg(message.channel.id, text);
+    return;
+  }
+});
+
+if(process.env.DISCORD_BOT_TOKEN == undefined){
+ console.log('DISCORD_BOT_TOKENが設定されていません。');
+ process.exit(0);
+}
+
+client.login( process.env.DISCORD_BOT_TOKEN );
+
+function sendReply(message, text){
+  message.reply(text)
+    .then(console.log("リプライ送信: " + text))
+    .catch(console.error);
+}
+
+function sendMsg(channelId, text, option={}){
+  client.channels.get(channelId).send(text, option)
+    .then(console.log("メッセージ送信: " + text + JSON.stringify(option)))
+    .catch(console.error);
+}
