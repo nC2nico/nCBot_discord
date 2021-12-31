@@ -52,20 +52,21 @@ client.on('message', message =>{
  if (message.author.id == client.user.id || message.author.bot){
    return;
  }
- if (message.content.match(/^!diceroll/) ||
-     (message.isMemberMentioned(client.user) && message.content.match(/diceroll/))){
+ if (message.content.match(/^!dr/) ||
+     (message.isMemberMentioned(client.user) && message.content.match(/dr/))){
    let arr  = message.content
-   let arr2 = arr.replace(/[^0-9^\.]/gi,"");
-   let arr3 = parseFloat(arr2);
-   lottery(message.channel.id, arr3);
+   let arr2 = arr.match(/[0-9]+\.?[0-9]*/g);
+   lottery(message.channel.id, parseInt(arr2[0]), parseInt(arr2[1]));
  }else if (message.isMemberMentioned(client.user)) {
    sendReply(message, "呼びましたか？");
  }
 });
 
-function lottery(channelId, arr){
-  let random = Math.floor( Math.random() * arr);
-  sendMsg(channelId, "1d"+arr+" -> "+random);
+function lottery(channelId, arr, arr2){
+  for (let i = 0; i < arr; i++) {
+    let random = random+Math.floor( Math.random() * arr2)+1;
+  }
+  sendMsg(channelId, arr+"d"+arr2+" -> "+random);
 }
 
 if(process.env.DISCORD_BOT_TOKEN == undefined){
